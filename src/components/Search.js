@@ -49,6 +49,17 @@ export function SearchProvider({ children }) {
   })
 
   useEffect(() => {
+    // trigger search on first load if the URL contains ?q=...
+    const q = new URLSearchParams(window.location.search).get('q')
+    if (!q) {
+      return
+    }
+    setIsOpen(true)
+    setInitialQuery(q)
+    console.log('searc', q)
+  }, [])
+
+  useEffect(() => {
     // Prepend "Components" to Tailwind UI results that are shown in the "recent" view
     if (!isOpen) {
       let key = `__DOCSEARCH_RECENT_SEARCHES__${INDEX_NAME}`
