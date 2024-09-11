@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, createContext, useContext, useEffect } f
 import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import Head from 'next/head'
+import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { DocSearchModal } from '@docsearch/react'
 import clsx from 'clsx'
@@ -23,8 +24,9 @@ const SearchContext = createContext()
 
 export function SearchProvider({ children }) {
   const router = useRouter()
-  const [isOpen, setIsOpen] = useState(false)
-  const [initialQuery, setInitialQuery] = useState(null)
+  const q = useSearchParams().get('q')
+  const [isOpen, setIsOpen] = useState(!!q)
+  const [initialQuery, setInitialQuery] = useState(q || null)
 
   const onOpen = useCallback(() => {
     setIsOpen(true)
